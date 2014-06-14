@@ -12,11 +12,11 @@
 :- module(parser, [parse_board/2]).
 
 % Grammar for Parser
-board(Z)  --> line(Z).
-board(Z)  --> line(X), board(Y), {append([X],[Y],Z)}.
-line(L)   --> sqr(L), [10].                             % 10 is '\n'
-line(L)   --> sqr(X), line(Y), {append([X],[Y],L)}.
-sqr(S)    --> [X,Y], {square([X,Y],S)}.
+board(Z)  --> line(X),            {Z = [X]}.
+board(Z)  --> line(X), board(Y),  {Z = [X | Y]}.
+line(L)   --> sqr(X), [10],       {L = [X]}.          % 10 is '\n'
+line(L)   --> sqr(X), line(Y),    {L = [X | Y]}.
+sqr(S)    --> [X,Y],              {square([X,Y],S)}.
 
 parse_board(L, V) :- board(V, L, []).
 
