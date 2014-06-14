@@ -20,10 +20,10 @@ sqr(S)    --> [X,Y],              {square([X,Y],S)}.
 
 parse_board(L, V) :- board(V, L, []).
 
-square(L,S)     :- isEmpty(L), S = ".".
-square(L,S)     :- isWall(L), S = "X".
-square([X,Y],S) :- isRobot([X,Y]), number_codes(N,[Y]), S = [X,N].
-square([X,Y],S) :- isResource([X,Y]), number_codes(N,[Y]), S = [X,N].
+square(L,S)     :- isEmpty(L),                              S = ".".
+square(L,S)     :- isWall(L),                               S = "X".
+square([X,Y],S) :- isRobot([X,Y]),    number_codes(N,[Y]),  S = [X,N].
+square([X,Y],S) :- isResource([X,Y]), number_codes(N,[Y]),  S = [X,N].
 
 isEmpty(L) :- \+ dif(L,"..").
 
