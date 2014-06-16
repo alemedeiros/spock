@@ -6,24 +6,24 @@
 %
 % Player for MC346 (Programming Paradigms) robot fight competition.
 
-:- use_module('parser.pl').
+:- use_module(parser).
+:- use_module(move_maker).
 
 % Top-Level goal.
 main :-
     read_line_to_codes(user_input, [Player]),
     read_line_to_codes(user_input, Size),
-    read_size(Size, Lstr, Cstr),
+    read_size(Size, Lstr, _),
     read_from_chars(Lstr, L),
-    read_from_chars(Cstr, C),
-    read_board(L,Bstr),
+    read_board(L, Bstr),
     parse_board(Bstr, Brd),
-    writef("%s\n\n\n", [Bstr]),
-    write(Bstr),nl,nl,nl,
-    write(Brd).
+    build_board(0, Brd),
+    move(Player, SrcI, SrcJ, DestI, DestJ),
+    writef("%n %t %t %t %t\n", [Player, SrcI, SrcJ, DestI, DestJ]), !.
 
 % Read board from stdin a strings.
-read_board(0,[]) :- !.
-read_board(Lin,Board) :-
+read_board(0, []) :- !.
+read_board(Lin, Board) :-
     read_line_to_codes(user_input, B_line),
     L_aux is Lin - 1,
     read_board(L_aux, B_aux),

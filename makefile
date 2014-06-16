@@ -2,7 +2,7 @@ all: spock
 
 rebuild: clean all
 
-spock: spock.pl parser.pl
+spock: spock.pl parser.pl move_maker.pl board_analyser.pl
 	swipl -q -t main -o $@ -c $<
 
 clean:
