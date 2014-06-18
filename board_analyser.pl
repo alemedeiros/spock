@@ -15,14 +15,14 @@ is_empty([46]). % 46 is '.'
 
 is_wall([88]). % 88 is 'X'
 
-is_robot([X,Y]) :-
+is_robot([X, Y]) :-
     is_player(X),
     number(Y).
 
 is_player(65). % 65 is 'A'
 is_player(66). % 66 is 'B'
 
-is_resource([82,Y]) :- % 82 is 'R'
+is_resource([82, Y]) :- % 82 is 'R'
     number(Y).
 
 % A is opponent of B and B is opponent of A.
