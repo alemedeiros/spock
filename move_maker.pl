@@ -37,7 +37,6 @@ build_board(Brd, L, C) :-
     asserta((board(_, J, _) :- J >= C, !, fail) ),
     asserta((board(_, J, _) :- J < 0, !, fail) ).
 
-
 build_board_aux(_, []) :- !.
 build_board_aux(I, [H|T]) :-
     build_board_line(I, 0, H),
