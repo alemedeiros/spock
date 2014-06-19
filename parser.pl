@@ -16,26 +16,27 @@ board(Z)  --> line(X),            {Z = [X]}.
 board(Z)  --> line(X), board(Y),  {Z = [X | Y]}.
 line(L)   --> sqr(X), [10],       {L = [X]}.          % 10 is '\n'
 line(L)   --> sqr(X), line(Y),    {L = [X | Y]}.
-sqr(S)    --> [X,Y],              {square([X,Y],S)}.
+sqr(S)    --> [X | T],            {square([X | T], S)}.
 
 parse_board(L, V) :- board(V, L, []).
 
-square(L,S)     :- isEmpty(L),                              S = ".".
-square(L,S)     :- isWall(L),                               S = "X".
-square([X,Y],S) :- isRobot([X,Y]),    number_codes(N,[Y]),  S = [X,N].
-square([X,Y],S) :- isResource([X,Y]), number_codes(N,[Y]),  S = [X,N].
+square(L, S)       :- is_empty(L),                              S = ".".
+square(L, S)       :- is_wall(L),                               S = "X".
+square([X | T], S) :- is_robot([X | T]),    number_codes(N, T), S = [X, N].
+square([X | T], S) :- is_resource([X | T]), number_codes(N, T), S = [X, N].
 
-isEmpty(L) :- \+ dif(L,"..").
+is_number([H | T]) :- code_type([H], digit), is_number(T).
+is_number([H])     :- code_type([H], digit).
 
-isWall(L) :- \+ dif(L,"XX").
+is_empty(L) :- \+ dif(L, "..").
 
-isRobot([X,Y]) :-
-    isPlayer(X),
-    number(Y).
+is_wall(L)  :- \+ dif(L, "XX").
 
-isPlayer(65). % Player A
-isPlayer(66). % Player B
+is_robot([X | T]) :- is_player(X), is_number(T).
 
-isResource([82,Y]) :- number(Y). % 82 is 'R'
+is_player(65). % Player A
+is_player(66). % Player B
+
+is_resource([82 | T]) :- is_number(T).
 
 % vim:set ft=prolog:
