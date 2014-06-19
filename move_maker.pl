@@ -8,7 +8,7 @@
 %
 % Move maker part of spock
 
-:- module(move_maker, [build_board/1, move/5]).
+:- module(move_maker, [build_board/3, move/5]).
 :- use_module(board_analyser).
 
 :- dynamic board/3.
@@ -30,9 +30,13 @@ valid_move(Player, SrcI, SrcJ, DestI, DestJ) :-
     %writef("dst: %t %t\n", [DestI, DestJ]), !.
 
 % Build board for easier access.
-build_board(Brd) :-
+build_board(Brd, L, C) :-
     build_board_aux(0, Brd),
-    assertz((board(_, _, _) :- !, fail) ).
+    asserta((board(I, _, _) :- I >= L, !, fail) ),
+    asserta((board(I, _, _) :- I < 0, !, fail) ),
+    asserta((board(_, J, _) :- J >= C, !, fail) ),
+    asserta((board(_, J, _) :- J < 0, !, fail) ).
+
 
 build_board_aux(_, []) :- !.
 build_board_aux(I, [H|T]) :-
