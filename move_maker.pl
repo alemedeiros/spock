@@ -8,10 +8,11 @@
 %
 % Move maker part of spock
 
-:- module(move_maker, [build_board/2, move/5]).
+:- module(move_maker, [build_board/1, move/5]).
 :- use_module(board_analyser).
 
 :- dynamic board/3.
+:- dynamic robot/3.
 
 % A move is a valid move.
 move(Player, SrcI, SrcJ, DestI, DestJ) :-
@@ -19,7 +20,7 @@ move(Player, SrcI, SrcJ, DestI, DestJ) :-
 
 % Generate a valid move.
 valid_move(Player, SrcI, SrcJ, DestI, DestJ) :-
-    board(SrcI, SrcJ, Src),
+    robot(SrcI, SrcJ, Src),
     owned_robot(Src, Player),
     %writef("src: %t %t\n", [SrcI, SrcJ]),
     neighbours(SrcI, SrcJ, DestI, DestJ),
@@ -36,6 +37,13 @@ build_board(I, [H|T]) :-
 
 % Build board line, auxiliar predicate for build_board.
 build_board_line(_, _, []) :- !.
+build_board_line(I, J, [[P, L] |T]) :-
+    (P == 65 ; P == 66),
+    assertz(board(I, J, [P, L])),
+    assertz(robot(I, J, [P, L])),
+    NJ is J + 1,
+    build_board_line(I, NJ, T), !.
+
 build_board_line(I, J, [H|T]) :-
     assertz(board(I, J, H)),
     NJ is J + 1,
