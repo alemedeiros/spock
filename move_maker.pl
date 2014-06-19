@@ -16,6 +16,7 @@
 
 % A move is a valid move.
 move(Player, SrcI, SrcJ, DestI, DestJ) :-
+    %listing,
     valid_move(Player, SrcI, SrcJ, DestI, DestJ).
 
 % Generate a valid move.
@@ -29,11 +30,15 @@ valid_move(Player, SrcI, SrcJ, DestI, DestJ) :-
     %writef("dst: %t %t\n", [DestI, DestJ]), !.
 
 % Build board for easier access.
-build_board(_, []) :- !.
-build_board(I, [H|T]) :-
+build_board(Brd) :-
+    build_board_aux(0, Brd),
+    assertz((board(_, _, _) :- !, fail) ).
+
+build_board_aux(_, []) :- !.
+build_board_aux(I, [H|T]) :-
     build_board_line(I, 0, H),
     NI is I + 1,
-    build_board(NI, T).
+    build_board_aux(NI, T).
 
 % Build board line, auxiliar predicate for build_board.
 build_board_line(_, _, []) :- !.

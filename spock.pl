@@ -17,8 +17,10 @@ main :-
     read_from_chars(Lstr, L),
     read_board(L, Bstr),
     parse_board(Bstr, Brd),
-    build_board(0, Brd),
+    build_board(Brd),
+    set_output(user_error),
     move(Player, SrcI, SrcJ, DestI, DestJ),
+    set_output(user_output),
     writef("%n %t %t %t %t\n", [Player, SrcI, SrcJ, DestI, DestJ]), !.
 
 % Read board from stdin a strings.
