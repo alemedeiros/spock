@@ -21,9 +21,11 @@ move(Player, SrcI, SrcJ, DestI, DestJ) :-
 valid_move(Player, SrcI, SrcJ, DestI, DestJ) :-
     board(SrcI, SrcJ, Src),
     owned_robot(Src, Player),
-    board(DestI, DestJ, Dest),
+    %writef("src: %t %t\n", [SrcI, SrcJ]),
     neighbours(SrcI, SrcJ, DestI, DestJ),
-    valid_destination(Dest, Player).
+    board(DestI, DestJ, Dest),
+    valid_destination(Dest, Player), !.
+    %writef("dst: %t %t\n", [DestI, DestJ]), !.
 
 % Build board for easier access.
 build_board(_, []) :- !.

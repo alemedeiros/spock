@@ -35,23 +35,23 @@ owned_robot([X, Y], X) :-
 
 % Right neighbour.
 neighbours(SrcI, SrcJ, DestI, DestJ) :-
-    SrcI =:= DestI,
-    SrcJ =:= DestJ + 1.
+    DestI is SrcI,
+    DestJ is SrcJ - 1.
 
 % Below neighbour.
 neighbours(SrcI, SrcJ, DestI, DestJ) :-
-    SrcI =:= DestI + 1,
-    SrcJ =:= DestJ.
+    DestI is SrcI - 1,
+    DestJ is SrcJ.
 
 % Left neighbour.
 neighbours(SrcI, SrcJ, DestI, DestJ) :-
-    SrcI =:= DestI,
-    SrcJ =:= DestJ - 1.
+    DestI is SrcI,
+    DestJ is SrcJ + 1.
 
 % Above neighbour.
 neighbours(SrcI, SrcJ, DestI, DestJ) :-
-    SrcI =:= DestI - 1,
-    SrcJ =:= DestJ.
+    DestI is SrcI + 1,
+    DestJ is SrcJ.
 
 % A resource is a valid destination for any player.
 valid_destination(Dest, _) :-
