@@ -46,7 +46,7 @@ build_board_aux(I, [H|T]) :-
 % Build board line, auxiliar predicate for build_board.
 build_board_line(_, _, []) :- !.
 build_board_line(I, J, [[P, L] |T]) :-
-    (P == 65 ; P == 66),
+    (P == "A" ; P == "B"),
     assertz(board(I, J, [P, L])),
     assertz(robot(I, J, [P, L])),
     NJ is J + 1,

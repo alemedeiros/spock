@@ -30,7 +30,7 @@ opponent(65, 66).
 opponent(66, 65).
 
 % Robot owned by Player
-owned_robot([X, Y], X) :-
+owned_robot([[X], Y], X) :-
     is_robot([X, Y]).
 
 % Right neighbour.

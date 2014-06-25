@@ -6,11 +6,12 @@
 %
 % Player for MC346 (Programming Paradigms) robot fight competition.
 
-:- use_module(parser).
 :- use_module(move_maker).
 
 % Top-Level goal.
 main :-
+    set_output(user_error),
+    [ 'parser.pl' ],
     read_line_to_codes(user_input, [Player]),
     read_line_to_codes(user_input, Size),
     read_size(Size, Lstr, Cstr),
@@ -19,7 +20,6 @@ main :-
     read_board(L, Bstr),
     parse_board(Bstr, Brd),
     build_board(Brd, L, C),
-    set_output(user_error),
     move(Player, SrcI, SrcJ, DestI, DestJ),
     set_output(user_output),
     writef("%n %t %t %t %t\n", [Player, SrcI, SrcJ, DestI, DestJ]), !.
