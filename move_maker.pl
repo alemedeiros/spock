@@ -16,15 +16,15 @@
 
 % Preferably a move is a 'get_resource'
 move(Player, SrcI, SrcJ, DestI, DestJ) :-
-    get_resource(Player, SrcI, SrcJ, DestI, DestJ),!.
+    get_resource(Player, SrcI, SrcJ, DestI, DestJ), !.
 
 % Secondly, it might be an execution of the enemy
 move(Player, SrcI, SrcJ, DestI, DestJ) :-
-    execution(Player, SrcI, SrcJ, DestI, DestJ),!.
+    execution(Player, SrcI, SrcJ, DestI, DestJ), !.
 
 % Thirdly a move to an empty square
 move(Player, SrcI, SrcJ, DestI, DestJ) :-
-    empty_move(Player, SrcI, SrcJ, DestI, DestJ),!.
+    empty_move(Player, SrcI, SrcJ, DestI, DestJ), !.
 
 % Then, if all hope is lost, a suicide :(
 move(Player, SrcI, SrcJ, DestI, DestJ) :-
