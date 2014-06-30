@@ -58,20 +58,4 @@ valid_destination(Dest, Player) :-
     \+ owned_robot(Dest, Player),
     \+ is_wall(Dest), !.
 
-/*
-    % A resource is a valid destination for any player.
-    valid_destination(Dest, _) :-
-        is_resource(Dest).
-
-    % An enemy robot is a valid destination for player.
-    valid_destination(Dest, Player) :-
-        is_robot(Dest),
-        opponent(Player, Enemy),
-        owned_robot(Dest, Enemy).
-
-    % An empty is a valid destination for any player.
-    valid_destination(Dest, _) :-
-        is_empty(Dest).
-*/
-
 % vim:set ft=prolog:
