@@ -14,10 +14,54 @@
 :- dynamic board/3.
 :- dynamic robot/3.
 
-% A move is a valid move.
+% Preferably a move is a 'get_resource'
 move(Player, SrcI, SrcJ, DestI, DestJ) :-
-    %listing,
+    get_resource(Player, SrcI, SrcJ, DestI, DestJ),!.
+
+% Secondly, it might be an execution of the enemy
+move(Player, SrcI, SrcJ, DestI, DestJ) :-
+    execution(Player, SrcI, SrcJ, DestI, DestJ),!.
+
+% Thirdly a move to an empty square
+move(Player, SrcI, SrcJ, DestI, DestJ) :-
+    empty_move(Player, SrcI, SrcJ, DestI, DestJ),!.
+
+% Then, if all hope is lost, a suicide :(
+move(Player, SrcI, SrcJ, DestI, DestJ) :-
     valid_move(Player, SrcI, SrcJ, DestI, DestJ).
+
+% Get a resource
+get_resource(Player, SrcI, SrcJ, DestI, DestJ) :-
+    robot(SrcI, SrcJ, Src),
+    owned_robot(Src, Player),
+    %writef("src: %t %t\n", [SrcI, SrcJ]),
+    neighbours(SrcI, SrcJ, DestI, DestJ),
+    board(DestI, DestJ, [82, _]),
+    %writef("dst: %t %t\n", [DestI, DestJ]),
+    !.
+
+% Kill an enemy!
+execution(Player, SrcI, SrcJ, DestI, DestJ) :-
+    robot(SrcI, SrcJ, Src),
+    owned_robot(Src, Player),
+    opponent(Player, Enemy),
+    %writef("src: %t %t\n", [SrcI, SrcJ]),
+    neighbours(SrcI, SrcJ, DestI, DestJ),
+    robot(DestI, DestJ, [Enemy, EnLevel]),
+    Src = [_, MyLevel],
+    MyLevel >= EnLevel,
+    %writef("dst: %t %t\n", [DestI, DestJ]),
+    !.
+
+% Basically, move anything.
+empty_move(Player, SrcI, SrcJ, DestI, DestJ) :-
+    robot(SrcI, SrcJ, Src),
+    owned_robot(Src, Player),
+    %writef("src: %t %t\n", [SrcI, SrcJ]),
+    neighbours(SrcI, SrcJ, DestI, DestJ),
+    board(DestI, DestJ, [46]),
+    %writef("dst: %t %t\n", [DestI, DestJ]),
+    !.
 
 % Generate a valid move.
 valid_move(Player, SrcI, SrcJ, DestI, DestJ) :-
@@ -26,8 +70,9 @@ valid_move(Player, SrcI, SrcJ, DestI, DestJ) :-
     %writef("src: %t %t\n", [SrcI, SrcJ]),
     neighbours(SrcI, SrcJ, DestI, DestJ),
     board(DestI, DestJ, Dest),
-    valid_destination(Dest, Player), !.
-    %writef("dst: %t %t\n", [DestI, DestJ]), !.
+    valid_destination(Dest, Player),
+    %writef("dst: %t %t\n", [DestI, DestJ]),
+    !.
 
 % Build board for easier access.
 build_board(Brd, L, C) :-
