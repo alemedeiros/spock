@@ -32,8 +32,7 @@ move(Player, SrcI, SrcJ, DestI, DestJ) :-
 
 % Get a resource
 get_resource(Player, SrcI, SrcJ, DestI, DestJ) :-
-    robot(SrcI, SrcJ, Src),
-    owned_robot(Src, Player),
+    robot(SrcI, SrcJ, [Player, _]),
     %writef("src: %t %t\n", [SrcI, SrcJ]),
     neighbours(SrcI, SrcJ, DestI, DestJ),
     board(DestI, DestJ, [82, _]),
@@ -42,21 +41,18 @@ get_resource(Player, SrcI, SrcJ, DestI, DestJ) :-
 
 % Kill an enemy!
 execution(Player, SrcI, SrcJ, DestI, DestJ) :-
-    robot(SrcI, SrcJ, Src),
-    owned_robot(Src, Player),
+    robot(SrcI, SrcJ, [Player, MyLevel]),
     opponent(Player, Enemy),
     %writef("src: %t %t\n", [SrcI, SrcJ]),
     neighbours(SrcI, SrcJ, DestI, DestJ),
     robot(DestI, DestJ, [Enemy, EnLevel]),
-    Src = [_, MyLevel],
     MyLevel >= EnLevel,
     %writef("dst: %t %t\n", [DestI, DestJ]),
     !.
 
 % Basically, move anything.
 empty_move(Player, SrcI, SrcJ, DestI, DestJ) :-
-    robot(SrcI, SrcJ, Src),
-    owned_robot(Src, Player),
+    robot(SrcI, SrcJ, [Player, _]),
     %writef("src: %t %t\n", [SrcI, SrcJ]),
     neighbours(SrcI, SrcJ, DestI, DestJ),
     board(DestI, DestJ, [46]),
@@ -65,8 +61,7 @@ empty_move(Player, SrcI, SrcJ, DestI, DestJ) :-
 
 % Generate a valid move.
 valid_move(Player, SrcI, SrcJ, DestI, DestJ) :-
-    robot(SrcI, SrcJ, Src),
-    owned_robot(Src, Player),
+    robot(SrcI, SrcJ, [Player, _]),
     %writef("src: %t %t\n", [SrcI, SrcJ]),
     neighbours(SrcI, SrcJ, DestI, DestJ),
     board(DestI, DestJ, Dest),
